@@ -12,7 +12,7 @@ public class SopaDeLletres {
         System.out.println("Benvinguts a la sopa de lletres");
         System.out.println("");
         String cadena = Utils.LlegirString("Introdueix la cadena de 100 lletres:", 100, 100);
-        sopa = crearSopaDeLletres(cadena);
+        sopa = generarSopa(cadena);
         trobat = new boolean[sopa.length][sopa[0].length];
         while (trobades < 5) {
             mostrarSopaDeLletres();
@@ -92,6 +92,10 @@ public class SopaDeLletres {
 
     }
 
+    private static int[][] comprovarParaula(String paraula, int i, int j) {
+        return comprovarParaula( paraula,  i,  j, true);
+    }
+
 
     /**
      * Mostra la sopa de lletres per consola
@@ -120,23 +124,27 @@ public class SopaDeLletres {
             System.out.print(c);
     }
 
+    private static void pintarLletra(char c) {
+        pintarLletra(c,false,"");
+    }
 
     /**
-     * Crea una sopa de lletres a partir d'una cadena de mínim 100 lletres
-     * @param cadena amb el condingut de la sopa de lletres
-     * @return sopa de lletres de 10x10
+     * Returns and prints a 10 x 10 array with the given chars of a String.
+     * @param ponerletras in the String with the chars we need.
+     * @return the array with each letter in a position.
      */
-    public static char[][] crearSopaDeLletres(String cadena) {
-        char[][] sopa = new char[10][10];
-        crearSopaDeLletresRecursiu(sopa, cadena, 0, 0);
-        return sopa;
+    public static char[][] generarSopa (String ponerletras) {
+        int positionString = 0;
+        char[][] sopaLetras = new char[10][10];
+        for (int i = 0; i < sopaLetras.length; ++i) {
+            for (int j = 0; j < sopaLetras[i].length; ++j) {
+                System.out.print(sopaLetras[i][j] = ponerletras.charAt(positionString));
+                System.out.print(" ");
+                positionString++;
+            }
+            System.out.println();
+        }
+        return sopaLetras;
     }
 
-    private static void crearSopaDeLletresRecursiu(char[][] sopa, String cadena, int i, int j) {
-        if (i < sopa.length && j < sopa[i].length) {
-            sopa[i][j] = cadena.charAt(i * sopa[i].length + j);
-            crearSopaDeLletresRecursiu(sopa, cadena, i, j + 1);  // Crida recursiva per la següent columna
-            crearSopaDeLletresRecursiu(sopa, cadena, i + 1, j);  // Crida recirsiva per la següent fila
-        }
-    }
 }
